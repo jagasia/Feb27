@@ -1,0 +1,421 @@
+Exceptions
+	occur during the (runtime) execution of the program. Sometimes it occur, sometimes it does not occur.
+	For example, instead entering a number, the user enters a String, then exception occurs.
+	ex: When writing data into a file, the file is read only, then exception occurs.
+	ex: While adding elements to a collection, memory is not sufficient to add any more element
+
+	When something is beyond the control of the program, we get exception.
+	
+	Wherever we anticipate exception, we surround that code in a guarded section called
+		try block
+
+	an exception occurred in try block will look for catch block.
+	THere can be 0 or more catch blocks for a try.
+	if a catch block corresponding to the exception occurred is found, then the exception is handled. (Handled means, the program will continue after catch block. It never return to try block.
+	
+	if a catch block corresp..... is not found, then exception is unhandled, error message is displayed and program terminates abruptly. (NOT GRACEFULLY)
+
+	"finally" block executes whenever try block is executed
+
+	try-finally
+	try-catch
+	try-catch-finally
+	try-catch-catch-finally
+
+Throwing exceptions
+	we can throw an object of any class that is derived from Exception or its sub class.
+	A class derived from RuntimeException class is unchecked exception.	COmpiler will not force us to i) handle that exception using try-catch or ii) declare that it throws that exception
+
+	A class derived from Exception is checked exception. compiler checks these exception and expect you to either
+	i) throws	(or)
+	ii) try-catch
+
+User defined exception class can have a constructor with String argument and supply it to super(message)
+	so that in catch block we can getMessage() from the object
+
+Assertions:
+	Assertions are assumptions which must be true to continue the program execution
+
+	while running a java program, we can enable assertions or disable assertions
+	in command prompt:
+		java -ea MyProgram		(enable assertion)
+		
+		java -da MyProgram		(disable assertion)
+
+	in eclipse:
+		In run configurations
+			in arguments tab	-> VM arguments	->	type -ea 	or 	-da
+Example:
+public class Main_Assertions {
+
+	public static void main(String[] args) {
+		int i=20;
+		int j=30;
+		i+=j;
+		assert i>60;
+		System.out.println(i);
+		if(20>10)
+		{
+			System.out.println(j);
+		}
+	}
+
+}
+
+compile and 
+run with -ea 	and 	-da	switch in java
+
+
+
+1) hands on for exception that has more than 1 possible exception to occur at runtime. so that you will have 1 try block with multiple catch blocks each handling different errors differently
+
+Write a Java program that accepts 2 numbers as input. Third input is "name" of the user
+After name, lets get an numeric input
+divide the first input by second input
+display the output
+
+i) user enters String instead of number		(Identify which exception occurred and handle it)
+ii) user enters second input as 0		(--do--)
+iii) third input is not accepted by the program	(--do--)
+
+
+
+For pin validation, the test cases are:
+12345			(4 digit violation)
+1221			(palindrome)
+rama			(numbers violation)
+1234			(true)
+===================================================================================
+Input and Output with Streams and Files		(IO Stream)
+	InputStream
+	OutputStream
+	Reader
+	Writer
+
+Can you tell different types of files you know:
+
+pdf
+txt		(note)
+zip
+doc
+html
+mp3
+css
+js
+jpg
+csv
+mp4
+mkv
+ppt
+gif
+
+but there are only 2 types of files
+	i) text files
+	ii) binary files
+
+
+a file which can be opened in a text editor is a text file
+
+imagine you create a file using MS Excel. After that if you open that excel file in a notepad. What happen?
+you cannot understand the file. Correct?
+	This is what happen when you open a binary file using a notepad.
+
+	You said, gif, you said, jpg, mp4	all these files are binary files. They will be opened only through respective softwares right?
+
+	We can also create a file using our java program. write some data. and the file will be readable from a java program only. (IN CASE OF BINARY FILE)
+
+	But if we create file using java, write text data into the file, then any text editor can open that file and show the content
+
+	What is a picture?		0s and 1s
+	WHat is a movie?		0s and 1s
+	every file is nothing but bytes. array of bytes. It is only the corresponding program like media player, or Gallary or VLC player etc that makes the audio or video play
+
+	But what is a file? it is just a storage of bytes
+
+	How does memory differes from storage?
+	
+i) memory is volatile.	But storage is non volatile.
+ii) memory is stored in RAM (or virtual memory). Whenever we refer the term storage, we refer secondary storage
+
+A program cannot read or write on secondary storage unless the file is loaded or represented as an object in memory
+
+
+File:
+	this class is used to represent a file or folder as an object in memory
+
+	list()		returns String[] of all files and folders
+	listFiles()	returns File[]
+	isDirectory()	returns true if it is a folder
+	length		returns the size of the file in bytes
+
+
+
+
+TasK:
+	Read all the bytes from a file into a byte array
+	Write these bytes into a new file
+
+		File f=new File("C:\\Users\\rjaga\\Pictures\\vernon-l-smith-reading-alcove.jpg");
+		int len=(int) f.length();
+		byte []data=new byte[len];
+		//to read bytes from a file, we use FileInputStream
+		FileInputStream fis=new FileInputStream(f);
+		fis.read(data);
+		fis.close();
+		
+		/////////////////////////		create a new file and write all bytes to that file
+		FileOutputStream fos=new FileOutputStream("D:\\Jag\\Java\\185\\debanjan.jpg");
+		fos.write(data);
+		fos.close();
+		System.out.println("Check");
+------------------------------
+In java io package, there are many classes. We can categorize them into 2 categories: The name of the class itself imply which category they belong to.	
+
+Any java class that ends with "Reader" or "Writer" comes under "Character" stream category
+Any java class that ends with "InputStream" or "OutputStream" comes under "Binary" stream category
+Character streams
+	Reader
+		FileReader, BufferedReader, CharArrayReader, InputStreamReader, StringReader
+	Writer
+		FileWriter, BufferedWriter, PrintWriter, StringWriter, OutputStreamWriter
+Binary Streams
+	InputStream
+		FileInputStream, DataInputStream, BufferedInputStream, ObjectInputStream
+	OutputStream
+		FileOutputStream, DataOutputStream, BufferedOutputStream, ObjectOutputStream
+
+if we want to write primitive data into a file,
+	DataOutputStream
+
+if we want to store object of a class (Employee) into a file,
+	ObjectOutputStream
+
+
+
+compare FileWriter and FileOutputStream
+	FileOutputStream	
+		write(byte[])
+	FileWriter
+		write(char[])
+
+
+
+
+There are some stream classes they directly point to a source or destination
+	FileOutpuStream, FileReader, FileWriter, FileInputStream
+		These are called as Node stream. They point to a definite node
+But there are some stream classes, they do not refer to any source or destination
+	DataInputStream	
+	ObjectInputStream
+	BufferedReader
+	BufferedInputStream
+	
+	these classes work on another stream. They are called as Filter stream
+
+
+int, float, String
+
+this is working fine because, 
+for int, it reads 4 bytes
+for float, it reads 4 bytes
+but for String?????? there is not clarity
+So we should use DataInputStream and o/s only for primitives
+
+If we need to store structured data, then use ObjectOutputStream. AN object of any class (Employee) 
+
+
+Task:
+	Create a java program that accepts a String input from the user.
+	This input should be stored permanently in a file. 
+
+	Create another java program that reads a string from that file and display the same
+
+
+solution:
+		Scanner sc=new Scanner(System.in);
+		String input=sc.nextLine();
+		//to write characters into a file
+		FileWriter fw=new FileWriter("d:\\jag\\java\\kaleshwar.txt");
+		fw.write(input);
+		fw.flush();
+		fw.close();
+
+
+-------------------------------
+		File f=new File("d:\\jag\\java\\kaleshwar.txt");
+		FileReader fr=new FileReader(f);
+		int len=(int) f.length();
+		char data[]=new char[len];
+		fr.read(data);
+		String s=new String(data);
+		System.out.println(s);
+========================================================
+
+Do you remember the program that reads byte[] from a picture file
+and 
+write those bytes into a new file
+
+the file can be any file. it may be a picture, video or audio or any file. It does not matter. we read all bytes and create a file and write all the bytes. there by it is copied.
+
+Imagine if the file is bigger than the virtual memory.
+how will the bytes be stored in array???	Array is in memory (not storage). Storages are usually very larger than the memory.
+
+So reading all the bytes and keeping them in a byte array is not good idea.
+
+So the same program we are going to do in bytes one by one rathen than all bytes. ie., no need for byte array
+
+We read one byte from source file and we write that byte into the destination file. We repeat until all the bytes are stored.
+
+		File f=new File("C:\\Users\\rjaga\\Pictures\\jag_profile.jpg");
+		FileInputStream fis=new FileInputStream(f);
+		int data=-1;
+		FileOutputStream fos=new FileOutputStream("D:\\Jag\\Java\\185\\jag.jpg");
+		while((data=fis.read())!=-1)
+		{
+			fos.write(data);
+//			Thread.sleep(1);
+		}
+		System.out.println("Check now");
+
+Task3.java 
+and
+Main6.java
+	are both same purpose but different approach.	
+	Second approach is best for large size files
+
+
+
+public List<College> findCollege(List<College> collegeList,List<String> nameList)
+{
+	List<College> result=new ArrayList<>();
+	for(College c: collegeList)
+	{
+		//check if c.getName is found in nameList
+		for(String name:nameList)
+		{
+			if(c.getName().equals(name))
+				result.add(c);
+		}
+	}
+	return result;
+}
+
+
+
+public List<College> findCollege(List<College> collegeList,Date startingDate)
+{
+
+}
+----------------------------------------------------------------------------
+Whenever we create an object of FileInputStream, 
+	FileNotFoundException is thrown
+Whenever we call read() method of FileInputStream,
+	IOException is thrown
+
+
+IOException is the super class for FileNotFoundException
+	Hence if we handle or declare IOException, then it will also deem FileNotFoundException
+
+Why FileNotFoundException occurs???
+	Because, the files are vulnerable to be deleted by someone, which is beyond the control of program
+
+Why IOException?
+	input happens from a source. there may be hardware issues that block from reading the input. so IOException occurs.
+
+Since we learnt Exceptions yesterday, do you remember ClassNotFoundException?
+	When do this exception occur?
+
+	Employee emp=new Employee();		//how this program compile? if Employee is not defined
+	
+	Class.forName("Employee");		//this will compile. But only at runtime, the object is created
+
+When exceptions are declared using throws, 
+	we have choice to 
+		handle exception using try-catch
+	or
+		declare throws
+
+Chaining streams:
+	Node streams point to definite source or destination
+	but in order to get some functionality, we need
+	Filter streams that work on Node streams
+
+Before jdk 1.5 that ie until 1.4
+	Scanner was not introduced
+	Lets see how inputs were obtained in old version
+
+System.in	is an input stream	(Node stream because it points to specific node called keyboard)
+Can we borrow the functionality of reading Characters or string?
+
+keyboard has only characters. 
+
+125
+
+
+
+i) one number
+ii) three characters
+iii) three numbers
+
+
+
+BufferedReader (Reader)				System.in (InputStream)
+
+InputStreamReader			
+
+BufferedReader br=new BufferedReader(new InputStreamReader(System.in));	//why we needed InputStreamReader
+BufferedInputStream bis=new BufferedInputStream(System.in);
+		
+
+new input output
+java.io is legacy now
+java.nio is new package
+
+
+Task:
+Identify how we can create a java program that will zip the files specified
+
+
+ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(
+        new FileOutputStream(zipFileName)
+ ZipEntry ze = new ZipEntry(zipEntries[i]);
+        zos.putNextEntry(ze);
+zos.write(byte[])
+----------------------------
+Example:
+ZipOutputStream zos=new ZipOutputStream(new FileOutputStream("D:\\Jag\\Java\\185\\harsha.zip"));
+zos.putNextEntry(new ZipEntry("jag.jpg"));
+
+		File f=new File("D:\\Jag\\Java\\185\\jag.jpg");
+		int len=(int) f.length();		
+		FileInputStream fis=new FileInputStream(f);
+		byte []data=new byte[len];
+		fis.read(data);
+		
+zos.write(data);
+zos.closeEntry();
+		
+		
+zos.close();
+
+---------------------------------
+Task:
+-----	
+	Accept input from the user which is a folder location.
+
+	Create a zip that archives all the files present in that location.
+
+	Hint:
+		File f=new File(location);
+		f.listFiles();		//returns the File []		check if not isDirectory		
+
+
+Re visiting File class:
+	File class can be used to 
+		create directory
+		rename or move			
+		delete a file or directory
+		
+
+	mkdir is used to create directory
+
